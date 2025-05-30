@@ -2,7 +2,7 @@ export const data = {
     bride: {
         L: {
             id: 1,
-            name: 'Arief',
+            name: 'A',
             child: 'Putra ke lorem',
             father: 'Lorem',
             mother: 'Ipsum',
@@ -87,7 +87,7 @@ export const data = {
         },
     ],
 
-    audio: 'src\assets\audio\wedding.mp3',
+    audio: './src/assets/audio/wedding.mp3',
 
     api: 'https://script.google.com/macros/s/AKfycbyydz6N4p2VWUG8zsXeURv6ap9RP8a4eC3x6N3x6qTDjMVr1cIBz9S0NsHw2rWvBOSXGg/exec',
 
