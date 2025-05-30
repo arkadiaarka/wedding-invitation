@@ -2,7 +2,7 @@ export const data = {
     bride: {
         L: {
             id: 1,
-            name: 'Lorem Ipsum',
+            name: 'ARIEF',
             child: 'Putra ke lorem',
             father: 'Lorem',
             mother: 'Ipsum',
@@ -10,7 +10,7 @@ export const data = {
         },
         P: {
             id: 2,
-            name: 'Ipsum Lorem',
+            name: 'AZIZAH',
             child: 'Putri ke lorem',
             father: 'Lorem',
             mother: 'Ipsum',
@@ -22,20 +22,20 @@ export const data = {
 
     time: {
         marriage: {
-            year: '2030',
-            month: 'November',
-            date: '14',
-            day: 'Kamis',
+            year: '2025',
+            month: 'Agustus',
+            date: '13',
+            day: 'Rabu',
             hours: {
                 start: '08.00',
                 finish: 'Selesai'
             }
         },
         reception: {
-            year: '2024',
-            month: 'November',
-            date: '14',
-            day: 'Kamis',
+            year: '2025',
+            month: 'Agustus',
+            date: '13',
+            day: 'Rabu',
             hours: {
                 start: '11.00',
                 finish: 'Selesai'
@@ -45,8 +45,8 @@ export const data = {
     },
 
     link: {
-        calendar: 'https://calendar.app.google/oSVLRMYC79GzuA4f9',
-        map: 'https://maps.app.goo.gl/q1Ask2Jgd4ekiiKBA',
+        calendar: 'https://calendar.app.google/u55o1hpMyBb7aRrj8',
+        map: 'https://maps.app.goo.gl/af9YXXXx5Lm3M6QXA',
     },
 
     galeri: [
