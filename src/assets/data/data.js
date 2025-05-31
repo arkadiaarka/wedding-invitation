@@ -89,7 +89,7 @@ export const data = {
 
     audio: './src/assets/audio/wedding.mp3',
 
-    api: 'https://script.google.com/macros/s/AKfycbwB8BdzO4_9sGMwU3WS4VHZBXXa2Hja-Bllw3GAlGX5oBJDO5X4hn4NgT6_fVbaJQ8/exec',
+    api: 'https://script.google.com/macros/s/AKfycbwzLNdvGlyFYl4iH0vLHmsRZ4h-Th_El6kuHY9cZdNPxjEnKJjMbMF41vJ6-Tq3YJA/exec',
 
     navbar: [
         {
