@@ -3,7 +3,7 @@ export const data = {
         L: {
             id: 1,
             name: 'Arief',
-            child: 'Putra ke pertma',
+            child: 'Putra Pertama',
             father: 'Shodikin',
             mother: 'Makrisah',
             image: './src/assets/images/cowo.png'
@@ -11,7 +11,7 @@ export const data = {
         P: {
             id: 2,
             name: 'Azizah',
-            child: 'Putri ke pertama',
+            child: 'Putri Pertama',
             father: 'Musthofa',
             mother: 'Titik Khumaidah',
             image: './src/assets/images/cewe.png'
@@ -41,11 +41,11 @@ export const data = {
                 finish: 'Selesai'
             }
         },
-        address: 'Bugel, RT 05/ RW 02, Desa.Bugel, Kec.wedung, Kab.jepara, Jawa Tengah',
+        address: 'Jl Raya Bugel, RT 05/ RW 02, Kedung, Bugel, Kedung, Jepara'
     },
 
     link: {
-        calendar: 'https://calendar.app.google/u55o1hpMyBb7aRrj8',
+        calendar: 'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NDc3NWtndTR1aDQ3YjRvN2I3MDY1YjFjN2ogc3lhZnJ1ZGluYXJpZWYxODJAbQ&tmsrc=syafrudinarief182%40gmail.com',
         map: 'https://maps.app.goo.gl/af9YXXXx5Lm3M6QXA',
     },
 
@@ -77,19 +77,19 @@ export const data = {
             id: 1,
             name: 'Nur Azizah',
             icon: './src/assets/images/mandiri.png',
-            rekening: '1840005464480'
+            rekening: '12345678'
         },
         {
             id: 2,
             name: 'Nur Azizah',
-            icon: './src/assets/images/seabank.png',
-            rekening: '901576398682'
+            icon: './src/assets/images/Seabank.png',
+            rekening: '12345678'
         },
     ],
 
     audio: './src/assets/audio/wedding.mp3',
 
-    api: 'https://calendar.google.com/calendar/u/0/r/eventedit?state=%5Bnull%2Cnull%2Cnull%2Cnull%2C%5B13%5D%5D&pli=1',
+    api: 'https://script.google.com/macros/s/AKfycbwzLNdvGlyFYl4iH0vLHmsRZ4h-Th_El6kuHY9cZdNPxjEnKJjMbMF41vJ6-Tq3YJA/exec',
 
     navbar: [
         {
