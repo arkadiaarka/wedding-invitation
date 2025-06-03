@@ -3,17 +3,17 @@ export const data = {
         L: {
             id: 1,
             name: 'Arief',
-            child: 'Putra ke lorem',
-            father: 'Lorem',
-            mother: 'Ipsum',
+            child: 'Putra ke pertma',
+            father: 'Shodikin',
+            mother: 'Makrisah',
             image: './src/assets/images/cowo.png'
         },
         P: {
             id: 2,
             name: 'Azizah',
-            child: 'Putri ke lorem',
-            father: 'Lorem',
-            mother: 'Ipsum',
+            child: 'Putri ke pertama',
+            father: 'Musthofa',
+            mother: 'Titik Khumaidah',
             image: './src/assets/images/cewe.png'
         },
 
@@ -41,7 +41,7 @@ export const data = {
                 finish: 'Selesai'
             }
         },
-        address: 'Kp. Lorem, RT 000/ RW 000, Desa.Lorem, Kec.Ipsum, Kab.Lorem, Lorem (1234)'
+        address: 'Bugel, RT 05/ RW 02, Desa.Bugel, Kec.wedung, Kab.jepara, Jawa Tengah',
     },
 
     link: {
@@ -75,21 +75,21 @@ export const data = {
     bank: [
         {
             id: 1,
-            name: 'Lorem Ipsum',
-            icon: './src/assets/images/bca.png',
-            rekening: '12345678'
+            name: 'Nur Azizah',
+            icon: './src/assets/images/mandiri.png',
+            rekening: '1840005464480'
         },
         {
             id: 2,
-            name: 'Ipsum Lorem',
-            icon: './src/assets/images/bri.png',
-            rekening: '12345678'
+            name: 'Nur Azizah',
+            icon: './src/assets/images/seabank.png',
+            rekening: '901576398682'
         },
     ],
 
     audio: './src/assets/audio/wedding.mp3',
 
-    api: 'https://script.google.com/macros/s/AKfycbwzLNdvGlyFYl4iH0vLHmsRZ4h-Th_El6kuHY9cZdNPxjEnKJjMbMF41vJ6-Tq3YJA/exec',
+    api: 'https://calendar.google.com/calendar/u/0/r/eventedit?state=%5Bnull%2Cnull%2Cnull%2Cnull%2C%5B13%5D%5D&pli=1',
 
     navbar: [
         {
