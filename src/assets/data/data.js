@@ -2,7 +2,7 @@ export const data = {
     bride: {
         L: {
             id: 1,
-            name: 'Arief',
+            name: 'Muhammad Arief Syafrudin',
             child: 'Putra Pertama',
             father: 'Shodikin',
             mother: 'Makrisah',
@@ -10,9 +10,9 @@ export const data = {
         },
         P: {
             id: 2,
-            name: 'Azizah',
+            name: 'Nur Azizah',
             child: 'Putri Pertama',
-            father: 'Musthofa',
+            father: 'Mustofa',
             mother: 'Titik Khumaidah',
             image: './src/assets/images/cewe.png'
         },
