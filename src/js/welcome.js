@@ -10,14 +10,16 @@ export const welcome = () => {
     const [audioMusic, audioButton] = document.querySelector('.audio').children;
     const [iconButton] = audioButton.children;
 
-    const generateFigureContent = (bride) => {
-        const {L: {name: brideLName}, P: {name: bridePName}, couple: coupleImage} = bride;
-        return `
-            <img src="${coupleImage}" alt="couple animation">
-            <figcaption>
-                ${brideLName.split(' ')[0]} & ${bridePName.split(' ')[0]}
-            </figcaption>`;
-    };
+   const generateFigureContent = (bride) => {
+    const {L: {name: brideLName}, P: {name: bridePName}, couple: coupleImage} = bride;
+    return `
+        <img src="${coupleImage}" alt="couple animation">
+        <figcaption>
+          <div class="brideLName">${brideLName}</div>
+          <div class="ampersand">&amp;</div>
+          <div class="bridePName">${bridePName}</div>
+        </figcaption>`;
+};
 
     const generateParameterContent = () => {
         const name = document.querySelector('#name');

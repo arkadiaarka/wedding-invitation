@@ -53,10 +53,25 @@
 }
 
 .welcome figure figcaption {
-    font-size: var(--fontSize-heading-base);
     font-family: var(--sacramento);
     font-weight: 400;
     margin-top: 0.5rem;
+    text-align: center; /* tengahin teks */
+    line-height: 1.3;
+}
+
+.welcome figure figcaption .brideLName,
+.welcome figure figcaption .bridePName {
+    font-size: 1.8rem;
+    /* Bisa ditambah styling lain jika perlu */
+}
+
+.welcome figure figcaption .ampersand {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0.3rem 0;
+    /* Posisi & di tengah */
+    text-align: center;
 }
 
 .welcome p span {
