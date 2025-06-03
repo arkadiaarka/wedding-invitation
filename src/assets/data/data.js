@@ -77,13 +77,13 @@ export const data = {
             id: 1,
             name: 'Nur Azizah',
             icon: './src/assets/images/mandiri.png',
-            rekening: '12345678'
+            rekening: '1840005464480'
         },
         {
             id: 2,
             name: 'Nur Azizah',
-            icon: './src/assets/images/Seabank.png',
-            rekening: '12345678'
+            icon: './src/assets/images/seabank.png',
+            rekening: '901576398682'
         },
     ],
 
