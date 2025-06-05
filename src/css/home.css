@@ -35,25 +35,27 @@
 }
 
 .home figure figcaption {
+    margin: 0 0 0.5rem;
+    font-weight: 400; /* Font weight dasar figcaption */
     font-family: var(--sacramento);
-    font-weight: 500;
-    margin-top: 0.5rem;
-    text-align: center; /* tengahin teks */
-    line-height: 1.3;
+    /* HAPUS font-size: var(--fontSize-heading-lg); dari sini */
+    line-height: 1.3; /* Untuk jarak antar baris */
 }
 
+/* --- BARU/PERUBAHAN UNTUK NAMA MEMPELAI DI HOME --- */
 .home figure figcaption .brideLName,
 .home figure figcaption .bridePName {
-    font-size: 1.8rem;
-    /* Bisa ditambah styling lain jika perlu */
+    font-size: 1.8rem; /* Ukuran font sama persis dengan welcome screen */
+    font-weight: 600; /* Sedikit lebih tebal */
+    color: var(--text-color); /* Menggunakan variabel tema */
 }
 
 .home figure figcaption .ampersand {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 2rem; /* Ukuran font simbol '&' sama dengan welcome screen */
+    font-weight: bold; /* Tetap tebal untuk simbol '&' */
     margin: 0.3rem 0;
-    /* Posisi & di tengah */
     text-align: center;
+    color: var(--text-color); /* Menggunakan variabel tema */
 }
 
 .home h3 {
