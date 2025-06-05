@@ -1,10 +1,23 @@
+// src/js/welcome.js
 import {data} from "../assets/data/data.js";
 import {addClassElement, getQueryParameter, removeClassElement} from "../utils/helper.js";
+// Impor helper functions yang baru dibutuhkan untuk ID, warna, dan tanggal
+import { generateRandomId, generateRandomColor, getCurrentDateTime } from "../utils/helper.js"; //
+// Impor comentarService
+import { comentarService } from "../services/comentarService.js"; //
+
 
 export const welcome = () => {
     const welcomeElement = document.querySelector('.welcome');
     const homeElement = document.querySelector('.home');
     const navbarElement = document.querySelector('header nav');
+    const attendancePopupOverlay = document.querySelector('.attendance-popup-overlay');
+    const confirmHadirButton = document.querySelector('#confirm-hadir');
+    const confirmTidakHadirButton = document.querySelector('#confirm-tidak-hadir');
+
+    // Dapatkan elemen input nama yang ada di wishas.js (untuk mengambil nama tamu dari URL)
+    const nameInput = document.querySelector('#name'); //
+
 
     const [_, figureElement, weddingToElement, openWeddingButton] = welcomeElement.children;
     const [audioMusic, audioButton] = document.querySelector('.audio').children;
@@ -22,33 +35,37 @@ export const welcome = () => {
 };
 
     const generateParameterContent = () => {
-        const name = document.querySelector('#name');
-        const params = getQueryParameter('to');
+        const params = getQueryParameter('to'); //
 
         if (params) {
             weddingToElement.innerHTML = `Kepada Yth Bapak/Ibu/Saudara/i<br><span>${params}</span>`;
-            name.value = params;
+            if (nameInput) { // Pastikan nameInput ada sebelum diakses
+                 nameInput.value = params; //
+            }
         } else {
             weddingToElement.innerHTML = `Kepada Yth Bapak/Ibu/Saudara/i<br><span>Teman-teman semua</span>`;
+            if (nameInput) { // Pastikan nameInput ada sebelum diakses
+                nameInput.value = 'Teman-teman semua'; //
+            }
         }
     }
 
     const initialAudio = () => {
         let isPlaying = false;
 
-        audioMusic.innerHTML = `<source src=${data.audio} type="audio/mp3"/>`;
+        audioMusic.src = data.audio; //
+        audioMusic.type = 'audio/mp3';
 
         audioButton.addEventListener('click', () => {
-
             if (isPlaying) {
-                addClassElement(audioButton, 'active');
-                removeClassElement(iconButton, 'bx-play-circle');
-                addClassElement(iconButton, 'bx-pause-circle');
+                addClassElement(audioButton, 'active'); //
+                removeClassElement(iconButton, 'bx-play-circle'); //
+                addClassElement(iconButton, 'bx-pause-circle'); //
                 audioMusic.play();
             } else {
-                removeClassElement(audioButton, 'active');
-                removeClassElement(iconButton, 'bx-pause-circle');
-                addClassElement(iconButton, 'bx-play-circle');
+                removeClassElement(audioButton, 'active'); //
+                removeClassElement(iconButton, 'bx-pause-circle'); //
+                addClassElement(iconButton, 'bx-play-circle'); //
                 audioMusic.pause();
             }
             isPlaying = !isPlaying;
@@ -56,27 +73,92 @@ export const welcome = () => {
     };
 
     openWeddingButton.addEventListener('click', () => {
-        addClassElement(document.body, 'active');
-        addClassElement(welcomeElement, 'hide');
+        addClassElement(document.body, 'active'); //
+        addClassElement(welcomeElement, 'hide'); //
 
         setTimeout(() => {
-            addClassElement(homeElement, 'active');
-            addClassElement(navbarElement, 'active');
-            addClassElement(audioButton, 'show');
-            removeClassElement(iconButton, 'bx-play-circle');
-            addClassElement(iconButton, 'bx-pause-circle');
-            audioMusic.play();
+            addClassElement(homeElement, 'active'); //
+            addClassElement(navbarElement, 'active'); //
+            addClassElement(audioButton, 'show'); //
+            removeClassElement(iconButton, 'bx-play-circle'); //
+            addClassElement(iconButton, 'bx-pause-circle'); //
+
+            setTimeout(() => {
+                audioMusic.play();
+            }, 100);
+
+            if (attendancePopupOverlay) {
+                 addClassElement(attendancePopupOverlay, 'active'); //
+            } else {
+                console.error("Elemen attendancePopupOverlay tidak ditemukan!");
+            }
+
         }, 1500);
 
         setTimeout(() => {
-            addClassElement(audioButton, 'active');
+            addClassElement(audioButton, 'active'); //
         }, 3000);
     });
 
+    // --- LOGIKA BARU UNTUK TOMBOL HADIR / TIDAK HADIR ---
+    const sendAttendanceConfirmation = async (status) => {
+        // Ambil nama tamu dari input #name, gunakan fallback jika kosong
+        const guestName = nameInput ? nameInput.value : 'Tamu Anonim'; //
+        const confirmationMessage = status === 'y' ? 'Konfirmasi Hadir' : 'Konfirmasi Tidak Hadir';
+
+        const attendanceData = {
+            id: generateRandomId(), //
+            name: guestName,
+            status: status === 'y' ? 'Hadir' : 'Tidak Hadir', // Simpan sebagai 'Hadir' atau 'Tidak Hadir' di Sheets
+            message: confirmationMessage,
+            date: getCurrentDateTime(), //
+            color: generateRandomColor(), //
+        };
+
+        try {
+            // Panggil API untuk mengirim data
+            const response = await comentarService.addComentar(attendanceData); //
+            console.log('Konfirmasi kehadiran terkirim:', response);
+
+            // Opsional: Berikan feedback ke user (misal: alert sederhana)
+            // if (response.status === 200) { alert('Konfirmasi Anda telah terkirim!'); }
+            // else { alert('Gagal mengirim konfirmasi. Silakan coba lagi.'); }
+
+        } catch (error) {
+            console.error('Error saat mengirim konfirmasi kehadiran:', error);
+            // alert('Terjadi kesalahan. Silakan coba lagi.');
+        }
+    };
+
+
+    if (confirmHadirButton) {
+        confirmHadirButton.addEventListener('click', async () => {
+            await sendAttendanceConfirmation('y'); // Panggil fungsi untuk mengirim data kehadiran
+            removeClassElement(attendancePopupOverlay, 'active'); // Sembunyikan popup
+            const statusSelect = document.querySelector('#status');
+            if (statusSelect) {
+                statusSelect.value = 'y'; // Tetap atur status di form komentar (jika user mau lanjut komen)
+            }
+        });
+    }
+
+    if (confirmTidakHadirButton) {
+        confirmTidakHadirButton.addEventListener('click', async () => {
+            await sendAttendanceConfirmation('n'); // Panggil fungsi untuk mengirim data kehadiran
+            removeClassElement(attendancePopupOverlay, 'active'); // Sembunyikan popup
+            const statusSelect = document.querySelector('#status');
+            if (statusSelect) {
+                statusSelect.value = 'n'; // Tetap atur status di form komentar (jika user mau lanjut komen)
+            }
+        });
+    }
+    // --- AKHIR LOGIKA BARU ---
+
+
     const initializeWelcome = () => {
-        figureElement.innerHTML = generateFigureContent(data.bride);
-        generateParameterContent();
-        addClassElement(welcomeElement, 'active');
+        figureElement.innerHTML = generateFigureContent(data.bride); //
+        generateParameterContent(); // Ini akan mengatur namaInput.value jika #name ada
+        addClassElement(welcomeElement, 'active'); //
     }
 
     initializeWelcome();
