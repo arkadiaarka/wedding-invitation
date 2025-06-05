@@ -53,6 +53,7 @@ export const welcome = () => {
 
         audioMusic.src = data.audio;
         audioMusic.type = 'audio/mp3';
+        audioMusic.load(); // <--- TAMBAHKAN BARIS INI: Memuat (preload) audio di awal
 
         audioButton.addEventListener('click', () => {
             if (isPlaying) {
@@ -81,9 +82,8 @@ export const welcome = () => {
             removeClassElement(iconButton, 'bx-play-circle');
             addClassElement(iconButton, 'bx-pause-circle');
 
-            setTimeout(() => {
-                audioMusic.play();
-            }, 100);
+            addClassElement(document.body, 'popup-active');
+            audioMusic.pause(); // Pastikan musik berhenti jika sudah mulai
 
             if (attendancePopupOverlay) {
                  addClassElement(attendancePopupOverlay, 'active');
@@ -123,10 +123,12 @@ export const welcome = () => {
 
     if (confirmHadirButton) {
         confirmHadirButton.addEventListener('click', async () => {
-            // --- PERUBAHAN DI SINI ---
-            removeClassElement(attendancePopupOverlay, 'active'); // Popup hilang duluan
-            await sendAttendanceConfirmation('y'); // Lalu kirim data di background
-            // --- AKHIR PERUBAHAN ---
+            removeClassElement(attendancePopupOverlay, 'active');
+
+            audioMusic.play();
+            removeClassElement(document.body, 'popup-active');
+
+            await sendAttendanceConfirmation('y');
 
             const statusSelect = document.querySelector('#status');
             if (statusSelect) {
@@ -137,10 +139,12 @@ export const welcome = () => {
 
     if (confirmTidakHadirButton) {
         confirmTidakHadirButton.addEventListener('click', async () => {
-            // --- PERUBAHAN DI SINI ---
-            removeClassElement(attendancePopupOverlay, 'active'); // Popup hilang duluan
-            await sendAttendanceConfirmation('n'); // Lalu kirim data di background
-            // --- AKHIR PERUBAHAN ---
+            removeClassElement(attendancePopupOverlay, 'active');
+
+            audioMusic.play();
+            removeClassElement(document.body, 'popup-active');
+
+            await sendAttendanceConfirmation('n');
 
             const statusSelect = document.querySelector('#status');
             if (statusSelect) {
