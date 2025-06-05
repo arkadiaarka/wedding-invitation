@@ -12,7 +12,9 @@ export const home = () => {
         return `
             <img src="${coupleImage}" alt="couple animation">
             <figcaption>
-                ${brideLName} & ${bridePName}
+                <div class="brideLName">${brideLName}</div>
+                <div class="ampersand">&amp;</div>
+                <div class="bridePName">${bridePName}</div>
             </figcaption>`;
     };
 
@@ -49,7 +51,7 @@ export const home = () => {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         if (distance < 0) {
-            clearInterval(intervalId); // intervalId is not defined here. It should be outside updateCountdown or returned.
+            // Pastikan intervalId didefinisikan di scope yang benar (sudah diperbaiki di startCountdown)
             homeTime.innerHTML = generateCountdownMarkup(0, 0, 0, 0);
         } else {
             homeTime.innerHTML = generateCountdownMarkup(days, hours, minutes, seconds);
@@ -61,7 +63,7 @@ export const home = () => {
         const endTime = new Date(`${String(year)}-${String(monthNameToNumber(month)).padStart(2, '0')}-${String(date).padStart(2, '0')}T00:00:00`);
 
         updateCountdown(endTime, homeTime);
-        const intervalId = setInterval(() => updateCountdown(endTime, homeTime), 1000); // Define intervalId here
+        const intervalId = setInterval(() => updateCountdown(endTime, homeTime), 1000);
     };
 
     const initializeHome = () => {
