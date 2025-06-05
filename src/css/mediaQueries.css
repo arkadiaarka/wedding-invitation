@@ -3,26 +3,8 @@
         display: flex;
     }
 
-    /* ... (Gaya CSS lain yang sudah ada di dalam media query ini) ... */
-
-    .home figure figcaption .brideLName,
-    .home figure figcaption .bridePName {
-        font-size: 1.4rem; /* Ukuran font lebih kecil untuk mobile */
-    }
-    .home figure figcaption .ampersand {
-        font-size: 1.6rem; /* Ukuran font lebih kecil untuk mobile */
-    }
-
     .home svg {
         bottom: -5rem;
-    }
-
-    /* Opsional: Sesuaikan ukuran font heading utama di Home jika perlu */
-    .home h2 { /* "Undangan Pernikahan" */
-        font-size: 1.8rem;
-    }
-    .home h3 { /* Tanggal */
-        font-size: 1rem;
     }
 
     .bride, .time{
