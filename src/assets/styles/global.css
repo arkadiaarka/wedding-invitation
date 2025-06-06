@@ -30,10 +30,9 @@ html {
 body {
     font-family: 'Josefin Sans', sans-serif;
     color: var(--primary-font-color);
-    /* overflow-y: hidden; */ /* Hapus baris ini */
 }
 
-body.no-scroll { /* Tambahkan kelas baru ini */
+body.no-scroll { /* Add this new class */
     overflow: hidden !important;
 }
 

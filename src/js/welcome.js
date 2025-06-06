@@ -14,7 +14,9 @@ export const welcome = () => {
     const confirmHadirButton = document.querySelector('#confirm-hadir');
     const confirmTidakHadirButton = document.querySelector('#confirm-tidak-hadir');
 
-    const nameInput = document.querySelector('#name');
+    const nameInput = document.querySelector('#name'); // Sudah ada
+    // Tambahkan referensi ke elemen textarea untuk pesan
+    const messageInput = document.querySelector('#message'); // Tambahkan ini
 
 
     const [_, figureElement, weddingToElement, openWeddingButton] = welcomeElement.children;
@@ -53,7 +55,7 @@ export const welcome = () => {
 
         audioMusic.src = data.audio;
         audioMusic.type = 'audio/mp3';
-        audioMusic.load(); // <--- TAMBAHKAN BARIS INI: Memuat (preload) audio di awal
+        audioMusic.load(); // Memuat (preload) audio di awal
 
         audioButton.addEventListener('click', () => {
             if (isPlaying) {
@@ -82,8 +84,8 @@ export const welcome = () => {
             removeClassElement(iconButton, 'bx-play-circle');
             addClassElement(iconButton, 'bx-pause-circle');
 
-            addClassElement(document.body, 'popup-active');
-            audioMusic.pause(); // Pastikan musik berhenti jika sudah mulai
+            addClassElement(document.body, 'no-scroll');
+            audioMusic.pause();
 
             if (attendancePopupOverlay) {
                  addClassElement(attendancePopupOverlay, 'active');
@@ -100,13 +102,17 @@ export const welcome = () => {
 
     const sendAttendanceConfirmation = async (status) => {
         const guestName = nameInput ? nameInput.value : 'Tamu Anonim';
-        const confirmationMessage = status === 'y' ? 'Konfirmasi Hadir' : 'Konfirmasi Tidak Hadir';
-
+        // Ambil nilai dari messageInput. Jika kosong, kirim string kosong.
+        const userMessage = messageInput ? messageInput.value.trim() : ''; 
+        
+        // Perbaiki cara pesan dikirim
+        // Sekarang, 'message' akan menjadi pesan dari user jika ada, atau string kosong
+        // Pesan konfirmasi ('Konfirmasi Hadir'/'Tidak Hadir') akan ditambahkan di Apps Script
         const attendanceData = {
             id: generateRandomId(),
             name: guestName,
-            status: status === 'y' ? 'Hadir' : 'Tidak Hadir',
-            message: confirmationMessage,
+            status: status === 'y' ? 'Hadir' : 'Tidak Hadir', // Tetap kirim status 'Hadir'/'Tidak Hadir'
+            message: userMessage, // Kirim pesan yang diketik user (bisa kosong)
             date: getCurrentDateTime(),
             color: generateRandomColor(),
         };
@@ -126,9 +132,11 @@ export const welcome = () => {
             removeClassElement(attendancePopupOverlay, 'active');
 
             audioMusic.play();
-            removeClassElement(document.body, 'popup-active');
+            removeClassElement(document.body, 'no-scroll');
 
-            await sendAttendanceConfirmation('y');
+            // Panggil sendAttendanceConfirmation dengan status 'y' (Hadir)
+            // Nilai message yang dikirim akan diambil dari messageInput (yang mungkin kosong)
+            await sendAttendanceConfirmation('y'); 
 
             const statusSelect = document.querySelector('#status');
             if (statusSelect) {
@@ -142,8 +150,10 @@ export const welcome = () => {
             removeClassElement(attendancePopupOverlay, 'active');
 
             audioMusic.play();
-            removeClassElement(document.body, 'popup-active');
+            removeClassElement(document.body, 'no-scroll');
 
+            // Panggil sendAttendanceConfirmation dengan status 'n' (Tidak Hadir)
+            // Nilai message yang dikirim akan diambil dari messageInput (yang mungkin kosong)
             await sendAttendanceConfirmation('n');
 
             const statusSelect = document.querySelector('#status');
