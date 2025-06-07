@@ -53,7 +53,7 @@
 }
 
 /* --- BARU: Gaya spesifik untuk nama kedua (misal: Nur Azizah) --- */
-.welcome figure figcaption .bridePName {
+.home figure figcaption .bridePName {
     /* Aturan ini akan menimpa transform untuk .bridePName */
     transform: translateX(25px); /* Geser ke kanan 10px */
 }
