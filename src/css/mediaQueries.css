@@ -1,3 +1,5 @@
+/* src/css/mediaQueries.css */
+
 @media screen and (max-width: 768px) {
     header nav {
         display: flex;
@@ -7,6 +9,7 @@
         bottom: -5rem;
     }
 
+    /* --- Penyesuaian font size dan ketebalan untuk nama mempelai di halaman Home pada mobile --- */
     .home figure figcaption .brideLName,
     .home figure figcaption .bridePName {
         font-size: 1.4rem; /* Ukuran font lebih kecil untuk mobile */
@@ -23,6 +26,7 @@
     .home h3 { /* Tanggal */
         font-size: 1rem;
     }
+    /* --- Akhir Penyesuaian --- */
 
     .bride, .time{
         padding: 6rem 1.4rem 8rem;

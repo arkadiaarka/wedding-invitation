@@ -1,9 +1,9 @@
 // src/js/welcome.js
-
 import {data} from "../assets/data/data.js";
 import {addClassElement, getQueryParameter, removeClassElement} from "../utils/helper.js";
-import { generateRandomId, generateRandomColor, getCurrentDateTime } from "../utils/helper.js";
-import { comentarService } from "../services/comentarService.js";
+// Hapus import yang tidak digunakan jika kita tidak mengirim data ke GS dulu dari sini
+// import { generateRandomId, generateRandomColor, getCurrentDateTime } from "../utils/helper.js";
+// import { comentarService } from "../services/comentarService.js";
 
 
 export const welcome = () => {
@@ -14,23 +14,34 @@ export const welcome = () => {
     const confirmHadirButton = document.querySelector('#confirm-hadir');
     const confirmTidakHadirButton = document.querySelector('#confirm-tidak-hadir');
 
-    const nameInput = document.querySelector('#name'); // Sudah ada
-    // Tambahkan referensi ke elemen textarea untuk pesan
-    const messageInput = document.querySelector('#message'); // Tambahkan ini
+    const nameInput = document.querySelector('#name');
 
 
-    const [_, figureElement, weddingToElement, openWeddingButton] = welcomeElement.children;
+    // --- START PERUBAHAN PENTING (Memperbaiki ReferenceError dan Mendefinisikan Elemen) ---
+    // Definisikan elemen-elemen ini secara eksplisit di awal fungsi welcome()
+    // Ini memperbaiki error `figureElement is not defined`
+    const figureElement = welcomeElement.querySelector('figure');
+    const weddingToElement = welcomeElement.querySelector('p');
+    const openWeddingButton = welcomeElement.querySelector('button[aria-label="Buka Undangan"]');
+    // --- AKHIR PERUBAHAN PENTING ---
+
     const [audioMusic, audioButton] = document.querySelector('.audio').children;
     const [iconButton] = audioButton.children;
 
+
    const generateFigureContent = (bride) => {
-    const {L: {name: brideLName}, P: {name: bridePName}, couple: coupleImage} = bride;
+    const {L, P, couple: coupleImage} = bride;
+    // --- START PERUBAHAN ---
+    // Hapus .toUpperCase() dari sini
+    const shortBrideLName = L.shortName; // Cukup L.shortName
+    const shortBridePName = P.shortName; // Cukup P.shortName
+    // --- AKHIR PERUBAHAN ---
     return `
         <img src="${coupleImage}" alt="couple animation">
         <figcaption>
-          <div class="brideLName">${brideLName}</div>
+          <div class="brideLName">${shortBrideLName}</div>
           <div class="ampersand">&amp;</div>
-          <div class="bridePName">${bridePName}</div>
+          <div class="bridePName">${shortBridePName}</div>
         </figcaption>`;
 };
 
@@ -53,9 +64,11 @@ export const welcome = () => {
     const initialAudio = () => {
         let isPlaying = false;
 
-        audioMusic.src = data.audio;
-        audioMusic.type = 'audio/mp3';
-        audioMusic.load(); // Memuat (preload) audio di awal
+        // --- START PERUBAHAN AUDIO LOAD (dari perbaikan sebelumnya) ---
+        audioMusic.src = data.audio; // Ganti ini dari innerHTML
+        audioMusic.type = 'audio/mp3'; // Tambahkan ini
+        audioMusic.load(); // Tambahkan ini untuk preload
+        // --- AKHIR PERUBAHAN AUDIO LOAD ---
 
         audioButton.addEventListener('click', () => {
             if (isPlaying) {
@@ -73,7 +86,42 @@ export const welcome = () => {
         });
     };
 
-    openWeddingButton.addEventListener('click', () => {
+    // --- START PERUBAHAN LOGIKA openWeddingButton (Kontrol Popup, Scroll, Audio) ---
+    if (openWeddingButton) { // Pastikan tombol ditemukan
+        openWeddingButton.addEventListener('click', () => {
+            addClassElement(document.body, 'active');
+            addClassElement(welcomeElement, 'hide');
+
+            setTimeout(() => {
+                addClassElement(homeElement, 'active');
+                addClassElement(navbarElement, 'active');
+                addClassElement(audioButton, 'show');
+                removeClassElement(iconButton, 'bx-play-circle');
+                addClassElement(iconButton, 'bx-pause-circle');
+
+                // Kontrol scrolling dan audio di sini
+                addClassElement(document.body, 'popup-active'); // Nonaktifkan scrolling
+                audioMusic.pause(); // Pastikan musik berhenti/tidak mulai
+
+                if (attendancePopupOverlay) {
+                    addClassElement(attendancePopupOverlay, 'active'); // Tampilkan popup
+                } else {
+                    console.error("Elemen attendancePopupOverlay tidak ditemukan!");
+                }
+            }, 1500);
+
+            setTimeout(() => {
+                addClassElement(audioButton, 'active');
+            }, 3000);
+        });
+    } else {
+        console.error("Tombol 'Buka Undangan' tidak ditemukan di welcome screen.");
+    }
+    // --- AKHIR PERUBAHAN LOGIKA openWeddingButton ---
+
+
+    // Fungsi handleInvitationOpen yang disederhanakan (karena tidak ada GS submit dari sini dulu)
+    const handleInvitationOpen = () => {
         addClassElement(document.body, 'active');
         addClassElement(welcomeElement, 'hide');
 
@@ -83,60 +131,23 @@ export const welcome = () => {
             addClassElement(audioButton, 'show');
             removeClassElement(iconButton, 'bx-play-circle');
             addClassElement(iconButton, 'bx-pause-circle');
-
-            addClassElement(document.body, 'no-scroll');
-            audioMusic.pause();
-
-            if (attendancePopupOverlay) {
-                 addClassElement(attendancePopupOverlay, 'active');
-            } else {
-                console.error("Elemen attendancePopupOverlay tidak ditemukan!");
-            }
-
+            // audioMusic.play(); // Dihapus dari sini, dipindahkan ke confirm buttons
         }, 1500);
 
         setTimeout(() => {
             addClassElement(audioButton, 'active');
         }, 3000);
-    });
-
-    const sendAttendanceConfirmation = async (status) => {
-        const guestName = nameInput ? nameInput.value : 'Tamu Anonim';
-        // Ambil nilai dari messageInput. Jika kosong, kirim string kosong.
-        const userMessage = messageInput ? messageInput.value.trim() : ''; 
-        
-        // Perbaiki cara pesan dikirim
-        // Sekarang, 'message' akan menjadi pesan dari user jika ada, atau string kosong
-        // Pesan konfirmasi ('Konfirmasi Hadir'/'Tidak Hadir') akan ditambahkan di Apps Script
-        const attendanceData = {
-            id: generateRandomId(),
-            name: guestName,
-            status: status === 'y' ? 'Hadir' : 'Tidak Hadir', // Tetap kirim status 'Hadir'/'Tidak Hadir'
-            message: userMessage, // Kirim pesan yang diketik user (bisa kosong)
-            date: getCurrentDateTime(),
-            color: generateRandomColor(),
-        };
-
-        try {
-            const response = await comentarService.addComentar(attendanceData);
-            console.log('Konfirmasi kehadiran terkirim:', response);
-
-        } catch (error) {
-            console.error('Error saat mengirim konfirmasi kehadiran:', error);
-        }
     };
 
-
+    // --- START PERUBAHAN LOGIKA CONFIRM BUTTONS (Kontrol Popup, Scroll, Audio) ---
     if (confirmHadirButton) {
-        confirmHadirButton.addEventListener('click', async () => {
+        confirmHadirButton.addEventListener('click', () => { // Tidak perlu async jika tidak memanggil GS
             removeClassElement(attendancePopupOverlay, 'active');
 
-            audioMusic.play();
-            removeClassElement(document.body, 'no-scroll');
+            audioMusic.play(); // Mainkan musik
+            removeClassElement(document.body, 'popup-active'); // Aktifkan scrolling
 
-            // Panggil sendAttendanceConfirmation dengan status 'y' (Hadir)
-            // Nilai message yang dikirim akan diambil dari messageInput (yang mungkin kosong)
-            await sendAttendanceConfirmation('y'); 
+            handleInvitationOpen(); // Lanjutkan ke halaman utama
 
             const statusSelect = document.querySelector('#status');
             if (statusSelect) {
@@ -146,15 +157,13 @@ export const welcome = () => {
     }
 
     if (confirmTidakHadirButton) {
-        confirmTidakHadirButton.addEventListener('click', async () => {
+        confirmTidakHadirButton.addEventListener('click', () => { // Tidak perlu async jika tidak memanggil GS
             removeClassElement(attendancePopupOverlay, 'active');
 
-            audioMusic.play();
-            removeClassElement(document.body, 'no-scroll');
+            audioMusic.play(); // Mainkan musik
+            removeClassElement(document.body, 'popup-active'); // Aktifkan scrolling
 
-            // Panggil sendAttendanceConfirmation dengan status 'n' (Tidak Hadir)
-            // Nilai message yang dikirim akan diambil dari messageInput (yang mungkin kosong)
-            await sendAttendanceConfirmation('n');
+            handleInvitationOpen(); // Lanjutkan ke halaman utama
 
             const statusSelect = document.querySelector('#status');
             if (statusSelect) {
@@ -162,10 +171,15 @@ export const welcome = () => {
             }
         });
     }
+    // --- AKHIR PERUBAHAN LOGIKA CONFIRM BUTTONS ---
+
 
     const initializeWelcome = () => {
+        // Hapus atau abaikan baris ini karena figureElement dan weddingToElement sudah didefinisikan di awal fungsi welcome()
+        // const weddingToElement = document.querySelector('.welcome p');
         figureElement.innerHTML = generateFigureContent(data.bride);
-        generateParameterContent();
+        // generateParameterContent(weddingToElement); // weddingToElement sudah di scope atas, tidak perlu argumen
+        generateParameterContent(); // Panggil tanpa argumen jika weddingToElement sudah di scope welcome()
         addClassElement(welcomeElement, 'active');
     }
 

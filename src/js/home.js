@@ -8,13 +8,18 @@ export const home = () => {
     const [_, figureElement, timeElement, homeTime, calendarAnchor] = homeContainer.children;
 
     const generateFigureContent = ({bride}) => {
-        const {L: {name: brideLName}, P: {name: bridePName}, couple: coupleImage} = bride;
+        const {L, P, couple: coupleImage} = bride;
+        // --- START PERUBAHAN ---
+        // Hapus .toUpperCase() dari sini
+        const shortBrideLName = L.shortName; // Cukup L.shortName
+        const shortBridePName = P.shortName; // Cukup P.shortName
+        // --- AKHIR PERUBAHAN ---
         return `
             <img src="${coupleImage}" alt="couple animation">
             <figcaption>
-                <div class="brideLName">${brideLName}</div>
+                <div class="brideLName">${shortBrideLName}</div>
                 <div class="ampersand">&amp;</div>
-                <div class="bridePName">${bridePName}</div>
+                <div class="bridePName">${shortBridePName}</div>
             </figcaption>`;
     };
 
@@ -51,7 +56,6 @@ export const home = () => {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         if (distance < 0) {
-            // Pastikan intervalId didefinisikan di scope yang benar (sudah diperbaiki di startCountdown)
             homeTime.innerHTML = generateCountdownMarkup(0, 0, 0, 0);
         } else {
             homeTime.innerHTML = generateCountdownMarkup(days, hours, minutes, seconds);

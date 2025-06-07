@@ -1,3 +1,5 @@
+/* src/assets/styles/global.css */
+
 :root {
     --primary-font-color: '#212529';
     --bg-color: #f8f9fa;
@@ -30,15 +32,19 @@ html {
 body {
     font-family: 'Josefin Sans', sans-serif;
     color: var(--primary-font-color);
-}
-
-body.no-scroll { /* Add this new class */
-    overflow: hidden !important;
+    overflow-y: hidden; /* Defaultnya hidden */
 }
 
 body.active {
-    overflow-y: auto;
+    overflow-y: auto; /* Aktifkan scrolling saat body mendapat kelas active (untuk home screen) */
 }
+
+/* --- BARU: Kelas untuk mencegah scrolling saat popup aktif --- */
+body.popup-active {
+    overflow: hidden !important; /* Paksa hidden untuk mencegah scrolling */
+}
+/* --- AKHIR BARU --- */
+
 
 body::-webkit-scrollbar {
     display: none;
@@ -110,7 +116,6 @@ p {
     z-index: 100; /* Higher than other elements */
     opacity: 0;
     visibility: hidden;
-    /* Transisi untuk overlay itu sendiri (memudar) */
     transition: opacity 0.3s ease, visibility 0.3s ease;
     /* --- Penambahan untuk blur background (backdrop-filter) --- */
     backdrop-filter: blur(5px);

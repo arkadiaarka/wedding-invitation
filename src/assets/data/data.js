@@ -3,6 +3,7 @@ export const data = {
         L: {
             id: 1,
             name: 'Muhammad Arief Syafrudin',
+            shortName: 'Arief',
             child: 'Putra Pertama',
             father: 'Shodikin',
             mother: 'Makrisah',
@@ -11,6 +12,7 @@ export const data = {
         P: {
             id: 2,
             name: 'Nur Azizah',
+            shortName: 'Azizah',
             child: 'Putri Pertama',
             father: 'Mustofa',
             mother: 'Titik Khumaidah',
